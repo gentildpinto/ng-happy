@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  happy-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    restart: always
+    volumes:
+      - "/app/node_modules"
+      - ./:/app/
+    ports:
+      - "4200:4200"
+    command:
+      yarn start --host 0.0.0.0

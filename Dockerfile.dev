@@ -1,0 +1,11 @@
+FROM node:16.10.0-alpine3.12
+LABEL maintainer="Gentil Pinto"
+
+WORKDIR /app
+
+RUN npm install -g yarn --force
+RUN yarn global add @angular/cli
+
+COPY package.json ./
+COPY yarn.lock ./
+RUN yarn install

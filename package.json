@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "config": "ts-node ./scripts/setenv.ts",
+    "start-dev": "yarn run config -- --environment=dev && ng serve",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",

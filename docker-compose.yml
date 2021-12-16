@@ -11,4 +11,4 @@ services:
     ports:
       - "4200:4200"
     command:
-      yarn start --host 0.0.0.0
+      yarn start-dev --host 0.0.0.0

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import {
-    FormsModule,
-    ReactiveFormsModule
+	FormsModule,
+	ReactiveFormsModule
 } from '@angular/forms';
 import {
-    Title,
-    BrowserModule
+	Title,
+	BrowserModule
 } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -23,27 +23,27 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { OrphanageComponent } from './pages/orphanage/orphanage.component';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        HomeComponent,
-        OrphanagesMapComponent,
-        CreateOrphanageComponent,
-        SidebarComponent,
-        OrphanageComponent
-    ],
-    imports: [
-        FormsModule,
-        BrowserModule,
-        MatIconModule,
-        LeafletModule,
-        AppRoutingModule,
-        HttpClientModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule
-    ],
-    providers: [
-        Title
-    ],
-    bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		HomeComponent,
+		OrphanagesMapComponent,
+		CreateOrphanageComponent,
+		SidebarComponent,
+		OrphanageComponent
+	],
+	imports: [
+		FormsModule,
+		BrowserModule,
+		MatIconModule,
+		LeafletModule,
+		AppRoutingModule,
+		HttpClientModule,
+		ReactiveFormsModule,
+		BrowserAnimationsModule
+	],
+	providers: [
+		Title
+	],
+	bootstrap: [AppComponent]
 })
 export class AppModule { }

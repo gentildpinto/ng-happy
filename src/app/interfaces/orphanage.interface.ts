@@ -1,13 +1,13 @@
+import { Image } from './image.interface';
+
 export interface Orphanage {
-    id: number;
-    latitude: number;
-    longitude: number;
-    name: string;
-    about: string;
-    instructions: string;
-    opening_hours: string;
-    open_on_weekends: boolean;
-    images?: Array<{
-        url: string
-    }>;
+	id?: number;
+	name: string;
+	latitude: number;
+	longitude: number;
+	about: string;
+	instructions: string;
+	opened_hours: string;
+	open_on_weekends: boolean;
+	images?: Image[];
 }

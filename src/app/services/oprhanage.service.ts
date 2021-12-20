@@ -34,6 +34,15 @@ export class OprhanageService {
 			);
 	}
 
+	public getOrphanage(id: string): Observable<Orphanage> {
+		return this._http.get<Orphanage>(this._backendURL + 'orphanages/' + id)
+			.pipe(
+				retry(3),
+				map((object: any) => object),
+				catchError(this.handleError)
+			);
+	}
+
 	private handleError(error: any): Observable<never> {
 		const errorMessage = error.error instanceof ErrorEvent
 			? error.error.message

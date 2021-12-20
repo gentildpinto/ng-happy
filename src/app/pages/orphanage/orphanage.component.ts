@@ -12,6 +12,9 @@ import {
 import * as Leaflet from 'leaflet';
 import { ActivatedRoute } from '@angular/router';
 import { Orphanage } from '../../interfaces/orphanage.interface';
+import { OprhanageService } from 'src/app/services/oprhanage.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-orphanage',
@@ -20,9 +23,11 @@ import { Orphanage } from '../../interfaces/orphanage.interface';
 })
 export class OrphanageComponent implements OnInit, OnDestroy {
 
-	private _map: Leaflet.Map;
-
 	private _options: any;
+	private _map: Leaflet.Map;
+	public orphanage: Orphanage;
+	private _activeImageIndex = 0;
+	private _destroy$: Subject<boolean> = new Subject<boolean>();
 
 	private _markerIcon = {
 		icon: Leaflet.icon({
@@ -33,28 +38,35 @@ export class OrphanageComponent implements OnInit, OnDestroy {
 		})
 	};
 
-	private _orphanage: Orphanage;
-	private _activeImageIndex = 0;
-
 	constructor(
-		private _route: ActivatedRoute
+		private _route: ActivatedRoute,
+		private _oprhanageService: OprhanageService
 	) { }
 
 	ngOnInit(): void {
 		this._route.params.subscribe(params => {
-			const id: number = +params.id;
-			const orphanagesFromLocalstorage = JSON.parse(localStorage.getItem('happy-orphanages'));
-			const orphanage = orphanagesFromLocalstorage[id - 1];
-			this._orphanage = orphanage;
+			this._oprhanageService.getOrphanage(params.id)
+				.pipe(takeUntil(this._destroy$))
+				.subscribe((orphanage: Orphanage) => {
+					this.orphanage = orphanage;
+					this.initMap();
+				});
 		});
+	}
 
+	ngOnDestroy(): void {
+		this._destroy$.next(true);
+		this._destroy$.unsubscribe();
+	}
+
+	private initMap(): void {
 		this._options = {
 			layers: [
 				tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 20, attribution: '' })
 			],
 			zoom: 16,
-			center: latLng(this._orphanage.latitude, this._orphanage.longitude),
-			position: [this._orphanage.latitude, this._orphanage.longitude],
+			center: latLng(this.orphanage.latitude, this.orphanage.longitude),
+			position: [this.orphanage.latitude, this.orphanage.longitude],
 			dragging: false,
 			touchZoom: false,
 			zoomControl: false,
@@ -65,29 +77,18 @@ export class OrphanageComponent implements OnInit, OnDestroy {
 		};
 	}
 
-	ngOnDestroy(): void {
-	}
-
 	public get options(): any {
 		return this._options;
 	}
 
 	public initMarkers(): void {
-		Leaflet.marker([this._orphanage.latitude, this._orphanage.longitude], this._markerIcon)
+		Leaflet.marker([this.orphanage.latitude, this.orphanage.longitude], this._markerIcon)
 			.addTo(this._map);
 	}
 
 	public onMapReady(map: Leaflet.Map): void {
 		this._map = map;
 		this.initMarkers();
-	}
-
-	public get orphanage(): Orphanage {
-		return this._orphanage;
-	}
-
-	public get orphanageImages(): Array<any> {
-		return this._orphanage.images;
 	}
 
 	public get activeImageIndex(): number {

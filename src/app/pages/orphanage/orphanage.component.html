@@ -2,11 +2,11 @@
     <app-sidebar></app-sidebar>
     <main>
         <div class="orphanage-details">
-            <img src="{{ orphanageImages[activeImageIndex].url }}" alt="{{ orphanage.name }}">
+            <img src="{{ orphanage.images[activeImageIndex].path }}" alt="{{ orphanage.name }}">
 
             <div class="images">
-                <button *ngFor="let image of orphanageImages; index as index; trackBy:currentImage" [class.active]="activeImageIndex == index" type="button">
-                    <img src="{{ image.url }}" alt="{{ orphanage.name }}" (click)="activeImageIndex = index">
+                <button *ngFor="let image of orphanage.images; index as index; trackBy:currentImage" [class.active]="activeImageIndex == index" type="button">
+                    <img src="{{ image.path }}" alt="{{ orphanage.name }}" (click)="activeImageIndex = index">
                 </button>
             </div>
 
